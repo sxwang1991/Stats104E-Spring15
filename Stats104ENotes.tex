@@ -309,7 +309,7 @@ be expressed in a standard form.
 
 This standard form can be used to convert different
 scales to the same scale so that direct comparison of
-values from the two different distributions can be directly compared.
+values from the two different distributions can be compared.
 
 Can also be used to find outliers.
 
@@ -329,7 +329,7 @@ s & spread \\
 1000 & large \\
 \end{tabular}
 
-The \textit{empirical rule} is more standardized way of evaluating spread of unknown data. For normally distributed data only:
+The \textit{empirical rule} is a more standardized way of evaluating spread of unknown data. For normally distributed data only:
 
 68\% of the data is in the interval $\overbar{x} \pm s_x, (\overbar{x} - s_x, \overbar{x} + s_x)$ 
 
@@ -401,7 +401,7 @@ skewness = \frac{\sum\limits_{i=1}^n (x_i - \overbar{x})^3 } { n s^3}
 
 by cubing, the sign is exaggerated. skewness = 0 means symmetric. Negative skewness means left skewed. Positive skewness means right skewed.
 
-Dropping just a few outliers can dramatically change the skewness. If $|$skewness$|  < 0.8$, then the dataset is acceptable and does not need transformations.
+Dropping just a few outliers can dramatically change the skewness. If $|$skewness$|  < 0.8$, then the dataset is generally acceptable and does not need transformations.
 
 \subsection{Comparing Datasets}
 
@@ -416,7 +416,7 @@ Ideally, use comparison metrics that are not highly affected by outliers.
 
 \subsection{Transforming Skewed Data}
 
-Repeated in regression section. Perform non-linear transformations such as $\sqrt{x}$, log(x), log(100-x), $1/x$ to reduce outliers and reduce skewness.
+(Repeated in regression section in greater detail). Perform non-linear transformations such as $\sqrt{x}$, log(x), log(100-x), $1/x$ to reduce outliers and reduce skewness.
 
 Is the data unusual because of outliers or because of skewness? The answer depends on experience.
 
