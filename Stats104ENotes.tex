@@ -271,9 +271,157 @@ Example: Trampoline Math
 
 but for an investment +9 / -1 is preferable as it will yield a higher rate of return.
 
+\subsection{Linear Transformations of Data}
+
+Lecture 4
+
+Assuming there is a series of $n$ univariate data points $x_1, x_2, x_3, ..., x_n$. A linear transformation can be applied:
+\[
+y_i = a + b x_i
+\]
+The transformation will not change the shape of the data distribution. However, the center and spread changes. Informally called the $a + bx$ rule. $a$ shifts. $b$ rescales.
+
+Examples: changing feet to inches, ACT to SAT...
+
+Shifting and rescaling affects the mean and variance differently:
+\begin{align*}
+Mean(a + bx) =& a + b[Mean(x)] \\
+Median(a + bx) =& a + b[Median(x)]\\
+Var(a + bx) =& b^2 Var(x) \\
+StdDev(a + bx) =& |b|\sqrt{Var(x)} \\
+IQR(a + bx) =& |b| * IQR \\
+\end{align*}
+Shifting does not change the variance. 
+
+\subsubsection{$Z$-score}
+
+This is the most common linear transformation is \textit{standardization}:
+\[
+z = \frac{x - \overbar{x}} {s}
+\]
+
+This will create a new dataset with mean=0 and stddev=1 and no units. In $a + bx$ terms, $a = -\frac{\overbar{x}}{s}$ and $b=\frac{1}{s}$.
+
+We can take any distribution and express all the values
+as z-scores (distances from the mean). So, no matter the
+scale we originally used to measure the variable, it will
+be expressed in a standard form.
+
+This standard form can be used to convert different
+scales to the same scale so that direct comparison of
+values from the two different distributions can be directly compared.
+
+Can also be used to find outliers.
+
+\subsection{Interpreting Standard Deviation}
+
+Recall: $\overbar{x}$ is where the data is centered. $s_x$ is how spread out or variable the data is from the center.
+
+Example: Assuming $\overbar{x} = 50$,
+
+\begin{tabular}{r | l}
+s & spread \\
+\hline
+0 & none \\
+3 & small \\
+14 & small - medium \\
+42 & medium \\
+1000 & large \\
+\end{tabular}
+
+The \textit{empirical rule} is more standardized way of evaluating spread of unknown data. For normally distributed data only:
+
+68\% of the data is in the interval $\overbar{x} \pm s_x, (\overbar{x} - s_x, \overbar{x} + s_x)$ 
+
+95\% of the data is in the interval $\overbar{x} \pm 2s_x, (\overbar{x} - 2s_x, \overbar{x} + 2s_x)$
+
+In practice, this is stupid due to these pre-requisite conditions. 
+
+Standard deviation is a good measure of spread \textbf{only if the data is symmetric}. It is not interpretable if the data is not symmetric.
+
+\subsection{Chebyshev's Rule}
+
+Unlike standard deviation, this rule is applicable to any data even it is not normally distributed.
+
+For any set of data, any number $k > 1$, the proportion of data that lies within $k$ standard deviations of the mean is \textbf{at least}:
+\[
+1 - \frac{1} {k^2} \times 100\%
+\]
+
+$k$ does not need to be an integer, ie. could be 1.3, 1.7..
+
+Example, $k=2$:
+The interval $\overbar{x} \pm 2s$. At least
+\[
+1 - \frac{1} {2^2} = \frac{3}{4} = 75\%
+\]
+of the data falls within 2 standard deviations of the mean. This is less than the empirical rule of 95\% but works for any distribution of data, not just normal.
+
+\subsection{Outlier Detection}
+
+Useful for detecting erroneous data. A single outlier can grossly affect mean and variance.
+
+Classic outlier detection:
+\[
+|z| = \bigg\lvert \frac{x - \overbar{x}} {s} \bigg\lvert \geq 2
+\]
+However, this relies on mean and variance, which are already overly sensitive to outliers.
+
+Other means of outlier detection:
+\begin{itemize}
+\item{histograms for a visual check}
+\item{how many items are above or below the mean to determine if it is skewed.}
+\item{boxplot, which is insensitive to outliers}
+\end{itemize}
+
+The boxplot rule: $x$ is an outlier if 
+\[
+x < Q1 - 1.5 (Q3-Q1)
+\]
+or
+\[
+x > Q3 - 1.5 (Q3-Q1)
+\]
+
+The 1.5 coefficient is arbitrary but works well in practice.
+
+
+\subsection{Skewness}
+
+Higher \textit{moments}, are defined by:
+
+moment 1: $\frac{1}{n} \sum x_n$
+
+moment 2: $\frac{1}{n} \sum (x_n - \overbar{x})^2$
+
+\textit{Skewness} measures the degrees of asymmetry of the data using moment 3:
+\[
+skewness = \frac{\sum\limits_{i=1}^n (x_i - \overbar{x})^3 } { n s^3}
+\]
+
+by cubing, the sign is exaggerated. skewness = 0 means symmetric. Negative skewness means left skewed. Positive skewness means right skewed.
+
+Dropping just a few outliers can dramatically change the skewness. If $|$skewness$|  < 0.8$, then the dataset is acceptable and does not need transformations.
+
+\subsection{Comparing Datasets}
+
+Compare two datasets by:
+\begin{itemize}
+\item{measure location (mean, median)}
+\item{measure spread (range, IQR, standard deviation)}
+\item{Skewness}
+\end{itemize}
+
+Ideally, use comparison metrics that are not highly affected by outliers.
+
+\subsection{Transforming Skewed Data}
+
+Repeated in regression section. Perform non-linear transformations such as $\sqrt{x}$, log(x), log(100-x), $1/x$ to reduce outliers and reduce skewness.
+
+Is the data unusual because of outliers or because of skewness? The answer depends on experience.
 
 \section{Missing Lectures}
-NEED TO COMPLETE LECTURES 4-15
+NEED TO COMPLETE LECTURES 5-15
 
 
 \section{Decision Analysis}
@@ -1953,6 +2101,8 @@ In Stata, use \texttt{ovtest}. Re-run again. Might need a $x^2$ and $x^3$ and ma
 
 Recall: influential observations are the worst (extreme in $x$ and $y$). 
 
+$Z$ scores and standard deviations are a simple and quick way to find outliers.
+
 Cook's distance is (approx) $|e_i| * |x_i - \overbar{x}|$ (high residual and far away from mean($x$)).  Looking for extreme Cook values to know which to drop.
 
 In Stata,
@@ -1970,7 +2120,7 @@ And as usual, refit and re-check model.
 
 Tests to perform when model building:
 \begin{itemize}
-\item{Understand the data. Optional: write down some assumptions on anticipated effects of the column semantics}
+\item{Understand the data. Optional: write down some assumptions on anticipated effects of the column semantics. Check mean, median, variance, skewness, boxplots, even Chebyshev. Compare training vs. test sets.}
 \item{Multicollinearity check of columns (\texttt{corr})}
 \item{Na{\"i}ve regression as baseline. Check significant columns, $R^2$, $\pm2 \times $Root-MSE, Overall F-test, $s_e \ll s_y$... }
 \item{Optional: check assumptions against significant columns}
@@ -2095,7 +2245,7 @@ Second half of course: lots of regression.
 
 Midterm 2: there is always a question about unbiased estimators. It is more straightforward and mechanical than the first exam. Topics include: hypothesis test for mean and proportion, Confidence Interval for a mean, Sample size calculation. The swan problem from the homework is always there. Easiest of the three exams.
 
-Final Exam: always a question on dummy variables, such as ``here are the variables, which one would you remove first?" or ``how would you interpret the coefficient of this dummy variable?" or ``what if you recoded the baseline?" Difficulty is between Exam 1 and Exam 2.
+Final Exam: always a question on dummy variables, such as ``here are the variables, which one would you remove first?" or ``how would you interpret the coefficient of this dummy variable?" or ``what if you recoded the baseline?" Difficulty is between Exam 1 and Exam 2. There will be questions about the $a+bx$ rule and the effect on standard deviation, mean, etc.
 
 \subsection{Materials to bring}
 \begin{itemize}
@@ -2156,6 +2306,8 @@ Command & Purpose \\
 
 \texttt{drop if} $var > 2$ & remove one column from a dataset based on a conditional\\
 
+\texttt{summarize} $x1$ $x2$\texttt{,detail} & Show mean, $\sigma$, min, max, with optionally more detail\\
+
 \texttt{tabstat} &  \\
 
 \end{tabular}
@@ -2190,8 +2342,6 @@ Command & Purpose \\
 \begin{tabular}{l p{ .5\textwidth} }
 Command & Purpose \\
 \hline
-\texttt{summarize} $x1$ $x2$\texttt{,detail} & Show mean, $\sigma$, min, max, with optionally more detail\\
-
 \texttt{table} $x1$ $x2$ & generate a frequency table \\
 
 \texttt{binomial} $(n,x,p)$ & Generate a binomial \\
