@@ -1,0 +1,282 @@
+\documentclass[10pt,landscape]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+
+
+\pdfinfo{
+  /Title (example.pdf)
+  /Creator (TeX)
+  /Producer (pdfTeX 1.40.0)
+  /Author (David Wihl)
+  /Subject (Cheat Sheet)
+  /Keywords (pdflatex, latex,pdftex,tex)}
+
+% This sets page margins to .5 inch if using letter paper, and to 1cm
+% if using A4 paper. (This probably isn't strictly necessary.)
+% If using another size paper, use default 1cm margins.
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+    }
+
+% Turn off header and footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+%My Environments
+\newtheorem{example}[section]{Example}
+% -----------------------------------------------------------------------
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols*}{3}
+
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+\setlength{\columnseprule}{1pt}
+
+
+\subsubsection{Basics}
+\begin{align*}
+\overbar{x} =& \frac{1}{n}\sum\limits_{i=1}^{n} {x_i}\\
+\mu = E(W) =& E(a + bX) = a + bE(X)\\
+\sigma^2 = Var(X) =& E[X^2] - \mu_x^2\\
+s^2 =& \sum\limits_{all\ i} \frac{(x_i - \overbar{x})^2}{n-1}\\
+\sigma = StdDev(X) =& \sqrt{\sigma^2}\\
+Var(X + c) =& Var(X)\\
+Var(cX) =& c^2Var(X)\\
+Var(X+Y) \ne& Var(X) + Var(Y)\\
+\end{align*}
+Chebyshev's Rule:
+\[
+1 - (\frac{1}{k^2})
+\]
+yields the \% of data that falls with $k$ std deviations.
+
+
+\subsubsection{Covariance and Correlation}
+Covariance gives direction.\\
+Correlation gives direction and strength.\\
+Both are \textit{linear}.
+\begin{align*}
+Cov(X, Y) =& \frac{1}{N} \sum\limits_{i=1}^{N} {(x_i - \overbar{x})(y_i - \overbar{y})} \\
+Cor =& \frac{Cov}{\sigma_x \cdot \sigma_y}\\
+\end{align*}
+
+\subsubsection{Return on Portfolio}
+\begin{align*}
+Avg return =& w_1\overbar{r}_1 + (1 - w_1)\overbar{r}_2\\
+r_{12} =& \frac{\sigma_{12}}{\sigma_1\sigma_2}\\
+\sigma^2 =& w^2_1\sigma^2_1 + w^2_2\sigma^2_2 + 2w_1w_2\sigma_1\sigma_2 \cdot Correlation\\
+Stock return =& \alpha + \beta \cdot Indexreturn \\
+Residual  =& Actual - Predicted \\
+		=& Observed - Fitted\\
+		=&y - \hat{y} \\
+\end{align*}
+
+\subsubsection{Probabilities}
+$ 0 \leq $ All probabilities $ \leq 1 $\\
+\textit{Mutually exclusive and Exhaustive}\\
+\begin{align*}
+P(\overbar{A}) =& 1 - P(A)\\
+P(A \text{ or } B) =& P(A) + P(B) - P(A \text{ and } B)\\
+P(A \vert B) =& \frac{P(A \text{ and } B)}{P(B)}\\
+\end{align*}
+Joint vs. Marginal probabilities\\
+Independent if $P(A\vert B) = P(A)$\\
+For Independent only: $P(E \text{ and } F) = P(E)\cdot P(F)$\\
+\begin{tabular}{| c | c | c |}
+
+\hline
+&B &$\overbar{B}$\\
+\hline
+A & $P(A and B) = P(B)P(A \vert B)$ & $P(A and \overbar{B}) = P(\overbar{B})P(A \vert \overbar{B})$\\
+$\overbar{A}$ & $P(\overbar{A} and B) = P(\overbar{A})P(B\vert \overbar{A})$ & $ P(\overbar{A}  and \overbar{B}) = P(\overbar{A})P(\overbar{B} \vert \overbar{A})$ \\
+\hline
+\end{tabular}
+
+\subsubsection{Random Variables}
+\begin{align*}
+P(X \le x) \rightarrow& CDF\\
+E(cX) =& c\cdot E(X)\\
+E(X+c) =& E(X) + c\\
+E(X+Y) =& E(X) + E(Y)\\
+\end{align*}
+
+\subsection{Discrete Probability Distributions}
+\begin{align*}
+\mu_x = E(X) =& \sum\limits_{all\ x_i} x_i P(X = x_i)\\
+\sigma_x^2 = Var(X) =& \sum\limits_{all\ x_i} (x_i - \mu_x)^2 P(X = x_i)\\
+ 	=& E[X^2] - (\mu_x)^2\\
+\end{align*}
+\begin{tabular}{| c | c | c |}
+\hline
+&Chebyshev &Empircal\\
+& Any Prob & Normal \\
+\hline
+$P(\mu - \sigma < x < \mu + \sigma)$ & $\geq 0$ & ~ 68\% \\
+\hline
+$P(\mu - 2\sigma < x < \mu + 2\sigma)$ & $\geq 75\%$ & ~ 95\% \\
+\hline
+$P(\mu - 3\sigma < x < \mu + 3\sigma)$ & $\geq 89\%$ & ~ 100\% \\
+\hline
+\end{tabular}
+\begin{align*}
+W =& a + bX\\
+\mu_W = E(W) =& E(a + bX)\\
+	=& a + bE(X) \\
+	=& a + b \mu_x \\
+Var(W) =& Var(a + bX) \\
+	=& b^2\sigma^2_x\\
+\end{align*}
+
+\subsubsection{Binomial Distribution}
+\begin{itemize}
+\item{$n$ independent trials}
+\item{binary result}
+\item{same probability of success}
+\item{total number of successes}
+\end{itemize}
+\begin{align*}
+X \sim& B(n,p)\\
+\binom{n}{x} =& \frac{n!}{x!(n-x)!}\\
+P(X=x) =& \frac{n!}{x!(n-x)!}p^xq^{(n-x)}\\
+\mu_x = E(X) =& n \cdot p\\
+\sigma^2 = Var(X) =& n \cdot p \cdot q = n \cdot p \cdot (1-p)\\
+\end{align*}
+Shape of distribution depends on $p,n$.\\
+Small $p$, left skewed. Large $p$, right skewed
+\begin{tabular}{| c | c |}
+\hline
+all success & $p^n$\\
+all failure & $(1-p)^n$\\
+at least one failure & $1-p^n$\\
+at least one success & $1 - (1-p)^n$\\
+\hline
+\end{tabular}
+
+\subsubsection{Joint Distribution}
+\begin{align*}
+P_{x,y} =& P(X = x \textit{ and } Y=y)\\
+\end{align*}
+Independent if \textbf{for all values}: $P_{x,y}(X = x \textit{ and } Y=y) = P_X(x)P_Y(y)$\\
+Conditional Distribution:\\
+$P_{X \vert Y} (X = x \vert Y=y) = \frac{P_{X,Y} (x,y)}{P_Y(y)}$\\
+Conditional Expectation:\\
+$E(X \vert Y=y) = \sum\limits_{all x} {x\cdot P(X=x \vert Y=y)}$\\
+Covariance:
+\begin{align*}
+\sigma_{XY} =& \sum\limits_{i=1}^N {[x_i-E(X)][(y_i-E(Y)]P(x_i,y_i)} \\
+Cov(X,Y) =& E(XY) - E(X)E(Y)\\
+\end{align*}
+
+Correlation:
+\begin{align*}
+\rho = \frac {\sigma_{X,Y}}{\sigma_X \sigma_Y}\\
+\end{align*}
+
+If X and Y are \textbf{independent}:
+\begin{align*}
+       E(X+Y) =& E(X) + E(Y)\\
+       Var(X+Y) =& Var(X) + Var(Y)\\
+       Cov(X,Y)=&0 \text{because} E(XY) = E(X)E(Y)\\
+\end{align*}
+
+If X and Y are \textbf{not independent}:
+\begin{align*}
+     E(X+Y) =& E(X) + E(Y)\\
+     Var(X+Y) =& Var(X) + Var(Y) + 2Cov(X,Y)\\
+\end{align*}
+
+Most general combination of random variables:
+\begin{align*}
+E((a + bX) + (c_dY)) =& a + bE(X) + c + dE(Y)\\
+Var((a + bX) + (c + dY) =& b^2Var(X) + d^2Var(Y) + 2bdCov(X,Y)\\
+\end{align*}
+
+
+\break
+\subsection{Continuous Probability Distribution}
+
+$P(X=x) = 0$ because it is always possible to be more precise.\\
+Probability of an interval:
+$P(a \leq X \leq b) = F_x(b) - F_x(a)$
+
+\subsubsection{Uniform Distribution}
+\begin{align*}
+E(X) =& \frac{(a+b)}{2}\\
+Var(X) =& \frac{(b-a)^2}{12} \\
+\end{align*}
+\ \ $y$ axis should be a fraction to make area $=1$
+
+
+
+
+\subsubsection{Normal Distribution}
+\begin{align*}
+X \sim& \mathcal{N}(\mu,\sigma^2)\\
+Z = &\frac{X - \mu}{\sigma} \sim \mathcal{N}(0,1)\\
+X = &\sigma Z + \mu \\
+P(a \leq X \leq b) =& P[(a-\mu) \leq (X-\mu) \leq (b-\mu)]\\
+	= & P[\frac{(a-\mu)}{\sigma} \leq \frac{(X-\mu)} {\sigma} \leq \frac {(b-\mu)} {\sigma} ]\\
+	= & P[\frac{(a-\mu)}{\sigma} \leq Z \leq \frac {(b-\mu)} {\sigma} ]\\
+\end{align*}
+Checking Normality:
+\begin{itemize}
+\item{mean and median close}
+\item{$IQR \sim 1.33\sigma$}
+\item{$range \sim 6\sigma$}
+\item{skewness = 0}
+\item{expected distributions (see table)}
+\end{itemize}
+
+% You can even have references
+%\rule{0.3\linewidth}{0.25pt}
+\scriptsize
+\bibliographystyle{abstract}
+\bibliography{refFile}
+\end{multicols*}
+\end{document}
