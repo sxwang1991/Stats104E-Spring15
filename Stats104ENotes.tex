@@ -420,8 +420,127 @@ Ideally, use comparison metrics that are not highly affected by outliers.
 
 Is the data unusual because of outliers or because of skewness? The answer depends on experience.
 
+\section{Measures of Association and Portfolios}
+Lecture 5
+
+Packet 1, Slides 301-309 are not used as they cover how to use Excel's Solver.
+
+\subsection{Covariance of Two Variables}
+
+\textit{Regression} is a better, more sophisticated way of seeing the relationship between two variables. A simpler method is \textit{covariance}. A scatterplot is quick and simple way to visualize the relationship between two variables. The most interesting use of correlation is in forming portfolios.
+
+Covariance gives direction only between two variables. \textit{Correlation} gives both direction \textbf{and strength}.
+
+Both covariance and correlation only summarize how strong a \textbf{linear} relationship there is between two variables. There may be a non-linear relationship between the two variables but it would not necessarily appear in the covariance or correlation.
+
+Positive covariance ($>0$) means larger $x$ implies a larger $y$ and vice-versa.
+
+Negative covariance ($<0$) means larger $x$ implies a smaller $y$ and vice-versa.
+
+The sample covariance between $x$ and $y$ is determined by:
+\[
+s_{xy} = \frac{1} {n-1} \sum\limits_{i=1}^n (x_i - \overbar{x}) (y_i - \overbar{y})
+\]
+The units of covariance are \textit{units-x * units-y}. The value of covariance is meaningless - only the sign has value. Cov(x,x) = Var(x). It just works out that way (substitute $x$ for $y$ in the above formula and the result is the variance $s^2_x$).
+
+In Stata, use \texttt{corr} $x$ $y$\texttt{, covariance}. 
+
+\subsection{Correlation of Two Variables}
+
+Correlation is defined by
+\[
+r_{xy} = \frac{s_{xy}} {s_xs_y}
+\]
+This is unitless. Correlation and covariance have the same sign. If either correlation or covariance = 0, the other will be as well meaning there is no linear relationship between the two variables.
+
+Correlation is \textbf{always} [-1, +1]
+
+Rule of thumb to interpret correlation:
+
+\begin{tabular}{c | c}
+Magnitude of $|r|$ & Interpretation \\
+\hline
+.00 - .20   & Very weak \\
+.02 - .40   & Weak to moderate \\
+.40 - .60   & Medium to substantial \\
+.60 - .80   & Very strong \\
+.80 - 1.0   & Extremely strong\\
+\end{tabular}
+
+Always plot your data, as correlation may be misleading, especially for non-linear relationships or data sets with outliers.
+
+\begin{center}
+\Large{Correlation does not imply causation.}
+\end{center}
+
+\subsection{Combining Two Data Sets}
+
+If $Z = aX + bY$, then
+\begin{align*}
+\overbar{Z} =& a\overbar{X} + b\overbar{Y}\\
+Var(Z) =  s^2_z =& a^2Var(X) + b^2Var(Y) + 2abCov(X,Y)\\
+\end{align*}
+
+When combining two data sets that have negative correlation, the resulting combination has less variance than either individual data set. Welcome to portfolio management!
+
+\section{Modern Portfolio Theory}
+
+Harry Markowitz began a revolution and won a Nobel Prize by suggesting that the value of a security might best be evaluated by its mean, standard deviation and correlation to other securities in the portfolio, rather than the company's fundamentals.
+
+\subsection{Standard Deviation as a measure of risk}
+
+A larger standard deviation means larger volatility, and typically a less desirable security.
+
+Return on a portfolio is defined as a weighted sum of the two different returns:
+\[
+R_p = w_a R_a + w_b R_b
+\]
+
+All the weights $w_i$ must add up to 1 (since this is a proportion of the entire portfolio).
+
+The weights could be negative when shorting a security.
+
+Portfolios are all about finding the best weights that maximize returns and minimize risks (ie. low standard deviation).
+
+\subsection{Investments 101}
+
+Given two securities with a return and a standard deviation respectively of $\overbar{r}_1, s_1, \overbar{r}_2, s_2$ and correlation $r_{1,2}$ and covariance $s_{1,2}$ and we invest $w_1$ in security 1, results in:
+
+Average return on portfolio $=w_1\overbar{r}_1 + (1-w_1)\overbar{r}_2$.
+
+Variance of return on portfolio:
+\[
+w_1^2s_1^2 + (1-w_1)^2s_2^2 + 2w_1(1-w_1)r_{1,2}s_1s_2
+\]
+or (equivalently)
+\[
+w_1^2s_1^2 + (1-w_1)^2s_2^2 + 2w_1(1-w_1)s_{1,2}
+\]
+
+since $r_{1,2} = s_{1,2} / s_1s_2$. The only thing that can be negative in this formula is $s_{1,2}$. Thus, risk can be reduced by finding two securities with negative correlation. This won Markowitz the Nobel Prize!
+
+The total portfolio risk = risk from A + Risk from B + Interactive Risk.
+
+If two securities have low correlation, the interactive risk will be small.
+
+If two securities are uncorrelated, the interactive risk drops out (=0).
+
+If two securities are negatively correlated, interactive risk would be negative and would
+reduce total risk. Choose securities that work in opposite directions.
+
+Portfolio dominance:
+\begin{itemize}
+\item{For a given level of risk, choose the highest level of return.}
+
+\item{For a given level of return, choose the lowest level of risk.}
+\end{itemize}
+
+MVP - minimum variance portfolio. The Efficient Frontier is everything with a mean return higher than MVP. Leverage is measured as 130/30 or 150/50, which provides an idea of how much is in margin (e.g. 30\% or 50\% in margin) so that the weights still add up to 1.
+
+In summary, \textbf{correlation drives portfolio risk}. If two stocks have a correlation of -1, then the portfolio has zero risk, with a small negative return.
+
 \section{Missing Lectures}
-NEED TO COMPLETE LECTURES 5-15
+NEED TO COMPLETE LECTURES 6-15
 
 
 \section{Decision Analysis}
@@ -2222,6 +2341,10 @@ Don't want month\_sold in the project as is. Either eliminate or turn into dummy
 
 Don't expect more than 15\% of projects to have interaction variables. They are hard to find.
 
+\section{Future classes}
+
+Future classes: Stats 107 (Finance), 110 (Probability), 139 (Regression II).
+
 
 \section{Taking the Exams}
 \subsection{How to Study}
@@ -2246,6 +2369,35 @@ Second half of course: lots of regression.
 Midterm 2: there is always a question about unbiased estimators. It is more straightforward and mechanical than the first exam. Topics include: hypothesis test for mean and proportion, Confidence Interval for a mean, Sample size calculation. The swan problem from the homework is always there. Easiest of the three exams.
 
 Final Exam: always a question on dummy variables, such as ``here are the variables, which one would you remove first?" or ``how would you interpret the coefficient of this dummy variable?" or ``what if you recoded the baseline?" Difficulty is between Exam 1 and Exam 2. There will be questions about the $a+bx$ rule and the effect on standard deviation, mean, etc.
+
+\subsection{Final Exam Review}
+Lecture 37
+
+\subsubsection{Fallacies and Traps}
+
+\begin{itemize}
+\item{Don't lie with graphs - use proper scaling}
+\item{Don't confuse population with sample. Use the correct formulas. $\overbar{x}$ or $\mu$?}
+\item{Coincidences actually occur frequently. See ``Improbability Principle" by David Hand}
+\item{Review sample bias}
+\item{Practical vs. Statistical significance. Be careful when $n$ gets large, that there may not be a difference}
+\item{P(A$|$B) should not be confused with or imply P(B$|$A)}
+\item{Interpreting a Confidence Interval: the process works, not any one interval}
+\item{Correlation is not causation}
+\item{Danger of extrapolation}
+\end{itemize}
+
+\subsubsection{General Course Concepts}
+\begin{itemize}
+\item{Visualize - organize and display the data using descriptive statistics}
+\item{Conceptualize - methods for data collections}
+\item{Analyze - probabilities, inferences based on samples, linear regression, modeling}
+\end{itemize}
+
+correlation of a variable with itself = 1.0
+
+covariance of a variable with itself = Var(variable)
+stopped at lecture 37, 24:00
 
 \subsection{Materials to bring}
 \begin{itemize}
