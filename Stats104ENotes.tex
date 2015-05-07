@@ -420,7 +420,7 @@ Ideally, use comparison metrics that are not highly affected by outliers.
 
 Is the data unusual because of outliers or because of skewness? The answer depends on experience.
 
-\section{Measures of Association and Portfolios}
+\section{Measures of Association}
 Lecture 5
 
 Packet 1, Slides 301-309 are not used as they cover how to use Excel's Solver.
@@ -539,8 +539,93 @@ MVP - minimum variance portfolio. The Efficient Frontier is everything with a me
 
 In summary, \textbf{correlation drives portfolio risk}. If two stocks have a correlation of -1, then the portfolio has zero risk, with a small negative return.
 
+\section{Intro to Regression}
+
+Lecture 6
+
+\subsection{Fitting a Line to Data}
+
+Basically, regression is about how to fit a line to data. There are many ways to do this.
+
+Method 1: draw by hand. Not algorithmic and not reproducible. If we draw a line between two points, which two points?
+
+Method 2: Split x axis in two, so there is a lower and upper half. Find two ``good" points in each group. Fit a line connecting these two points. Find $(\overbar{x}_1, \overbar{y}_1)$ and $(\overbar{x}_2, \overbar{y}_2) $. The formula will be  $y - y_1 = m(x - x_1)$.
+
+Instead of $y = mx + b$, we'll use $y = b_0 + b_1 x$. 
+
+Our \textit{estimated} line will be $\hat{y}_i = b_0 + b_1 x_i$.
+
+$y_i$ is observed. $\hat{y}_i$ is our guess, estimate or prediction.
+
+The \textit{error} is defined as the difference between observed and our estimate:
+\[
+e_i = y_i - \hat{y}_i
+\]
+
+\subsection{Criterion Functions}
+
+We obviously want to minimize these errors. We need a \textit{criterion function} to best describe the error.
+
+Find $b_0, b_1$ such that:
+\[
+\sum\limits_{i=1}^n (y_i - \hat{y}_i) = \sum\limits_{i=1}^n  e_i = 0
+\]
+
+The error for a specific point can't be zero, but the sum of errors could be zero so that the errors are balanced around the fitted line.
+
+This is solved using optimization methods. Excel's Solver is one tool that provides this optimization.
+
+If we change the starting values, we get a different solution. The solution is also not unique!
+
+As we saw in standard deviation, distances should always be positive. So a better criterion function is the \textit{Least Absolute Deviation}:
+\[
+\min_{b_0, b_1} \sum\limits_{i=1}^n |y_i - \hat{y}_i|
+\]
+
+This can be done in Excel or in Stata: \texttt{qreg} $y$ $x$. This method is robust to outliers.
+
+Finally, the \textit{least squares method} is the most popular criterion function but is more sensitive to outliers.
+\[
+\min_{b_0, b_1} \sum\limits_{i=1}^n (y_i - \hat{y}_i)^2
+\]
+
+\subsection{Finding $b_0$ and $b_1$}
+
+This minimum can be found using calculus (take the first derivative and set it to zero. See Packet 1, slides 348-351 for details). With computers, the more modern way is to find it computationally (let the machine do the work).
+
+The slope can be calculated by
+\[
+b_1 = r \frac{s_y}{s_x}
+\]
+
+In Stata, the regression command is \texttt{regress} $y$ $x$. The coefficient of \texttt{\_cons} is $b_0$. The coefficient of $x$ is $b_1$.
+
+Moral: if we find a similar solution using multiple criterion functions, they it is probably right, especially when the data may have outliers. Try multiple methods.
+
+\subsection{Danger of Extrapolation}
+
+Predictions should be made only within the range of $x$ values. Otherwise, there is a \textbf{danger of extrapolation}. For example, car price vs. mileage. If mileage = 0, the price at the intercept will certainly be wrong. As you move further away from the center of the data set, the errors and confidence intervals get significantly bigger.
+
+\subsection{Market Model in Finance, Beta}
+
+stockreturn = $\alpha$ + $\beta$ Indexreturn. This is exactly the same as $b_0$ and $b_1$. Beta is simply the slope against the stock market index calculated by regression. Each reporter such as Yahoo or Google Finance can use a different time frame, generating a different beta. Beta is usually calculated using three years of data.
+
+\begin{tabular}{c | l}
+Beta & Risk\\
+\hline
+0 & cash, unaffected by market\\
+1 & same as market \\
+$0<\beta<1$ & safer than market \\
+$\beta>1$ & riskier than market \\
+$\beta < 0$ & negative correlation with market\\
+\end{tabular}
+
+Parzen: ``There is no Stat Police out there. People can do whatever they want, which is why Finance is a joke. There should be a plus/minus on beta, but there isn't because it is worth shit."  
+
+``The Search for Alpha" merely means a guaranteed return irrespective of market changes. Most fund managers have a negative alpha (due to expenses).
+
 \section{Missing Lectures}
-NEED TO COMPLETE LECTURES 6-15
+NEED TO COMPLETE LECTURES 7-15
 
 
 \section{Decision Analysis}
@@ -2519,7 +2604,7 @@ Command & Purpose \\
 
 \texttt{predict} $res, r$ & predict residuals \\
 
-\texttt{qreg} &  \\
+\texttt{qreg} $y$ $x$ & Fit a line using Least Absolute Deviation \\
 
 \texttt{swilk score} & Shapiro-Wilk normalcy test \\
 
