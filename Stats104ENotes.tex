@@ -2484,6 +2484,10 @@ correlation of a variable with itself = 1.0
 covariance of a variable with itself = Var(variable)
 stopped at lecture 37, 24:00
 
+\subsubsection{Final Review Session}
+
+
+
 \subsection{Materials to bring}
 \begin{itemize}
 	\item \emph{calculator} -- Basic functions. No phones / tablets allowed.
@@ -2662,9 +2666,9 @@ Command & Purpose \\
 \hline
 \texttt{invt (1-$\alpha, df$)} & For an area $[0,1]$ and degrees of freedom, find the Z value. Typically $df$ is large, like 1000\\
 
-\texttt{invNorm(1-$\alpha$)} & For an area $[0,1]$, find the Z value \\
+\texttt{invNorm(area,$\mu, \sigma$)} & For a given area $[0,1]$, find the corresponding $x$ value \\
 
-\texttt{normCDF(\textit{Lower, Upper}, $\mu, \sigma$)} & Find the area of an interval \\
+\texttt{normCDF(\textit{Lower, Upper}, $\mu, \sigma$)} & Find the area of an interval. Can used with CLT to find probabilities. \\
 
 \texttt{tTest $\mu_0, \sigma, \overbar{x}, n, \{+1,0,-1\}$ } & Perform a Mean t-test. Use +1 for $>$, 0 for $=$, $-1$ for $<$. Find results in \texttt{stat.results} \\
 

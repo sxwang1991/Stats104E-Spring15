@@ -151,6 +151,8 @@ Cor =& \frac{Cov}{\sigma_x \cdot \sigma_y}\\
 r_{xy} =& \frac{s_{xy}} {s_xs_y}\\
 \end{align*}
 
+If two variables are \textbf{independent}, cov=0. But the reverse is not true. If cov=0, there is no linear relationship, though there still might be a non-linear relationship, such as  $y=x^2$.
+
 If $Z = aX + bY$, then
 \begin{align*}
 \overbar{Z} =& a\overbar{X} + b\overbar{Y}\\
@@ -269,6 +271,7 @@ If X and Y are \textbf{independent}:
 \begin{align*}
        E(X+Y) =& E(X) + E(Y)\\
        Var(X+Y) =& Var(X) + Var(Y)\\
+       Var(X-Y) =& Var(X) + Var(Y)\\
        Cov(X,Y)=&0 \text{because} E(XY) = E(X)E(Y)\\
 \end{align*}
 
@@ -276,6 +279,7 @@ If X and Y are \textbf{not independent}:
 \begin{align*}
      E(X+Y) =& E(X) + E(Y)\\
      Var(X+Y) =& Var(X) + Var(Y) + 2Cov(X,Y)\\
+     Var(X-Y) =& Var(X) + Var(Y) - 2Cov(X,Y)\\
 \end{align*}
 
 Most general combination of random variables:
@@ -537,7 +541,7 @@ B \sim& \mathcal{N}(\mu_B, \sigma_B^2) \\
 Find $P(A < B + c)$:
 \begin{align*}
 P&(A - B - c < 0)\\
-(A - B - c) \sim& \mathcal{N}(\mu_A - \mu_B - c, \sigma_A^2 + \sigma_B^2)\\
+(A - B - c) \sim& \mathcal{N}(\mu_A - \mu_B - c, \sigma_A^2 + \sigma_B^2 - 2Cov(A,B)\\
 P&(X = A - B - c > 0) \\
 \end{align*}
 then Z-score
@@ -636,6 +640,13 @@ Least Squares has two interesting properties:
 1) The mean of the residuals $\frac{1}{n} \sum e_i = 0$. This implies that $\sum e_i = 0$.
 
 2) The mean of the fitted values equals the mean of the original values ie. $\overbar{y} = \overbar{\hat{y}}$.
+\[
+b_1 = \frac{ \sum\limits_{i=1}^n (x_i - \overbar{x}) (y_i - \overbar{y}) } { \sum\limits_{i=1}^n (x_i - \overbar{x})^2}  = \frac{r\cdot s_y} { s_x}
+\]
+So the slope of $b_1$ has the same sign as the correlation $r$. The intercept is:
+\[
+b_0 = \overbar{y} - b_1\overbar{x}
+\]
 
 Since $\hat{y}$ is defined as a linear relationship with $x$, there is a perfect correlation, ie. $corr(\hat{y}, x) = 1$.
 
@@ -646,6 +657,15 @@ The sum of squares total (SST) = regression (SSR) + error (SSE)
 Var(Y) = Var(\hat{Y}) + Var(e)
 \]
 SST is the total information in $y$. SSR is total information explained by $x$. SSE is the information in $y$ not explained by $x$. We want to maximize SSR and minimize SST. If SST = SSR, then SSE = 0 and we have a perfect fit.
+
+\begin{tabular} {l | c c c}
+Source & SS & dF & MS \\
+\hline
+Model & SSR & K & SSR / K \\
+Residual & SSE & $n-k-1$ & SSE / $(n - k -1)$ \\
+\hline
+Total & SST & $n-1$ & Var(y)
+\end{tabular}
 
 \subsubsection{Regression - Single Variable Diagnostics}
 $R^2$: what percentage of the variation of the predicted $y$  is explained by the variation in $x$. The rest is unexplained by the model.
@@ -663,7 +683,7 @@ $R^2$ does not indicate whether a regression model is adequate. You can have a l
 
 Adding ``junk" $x$ variables will increase $R^2$.
 
-\subsubsection{Estimating Error Variance $s_e$ and Noise}
+\subsubsection{Estimating Error Variance $s_e$ and Noise, One Variable}
 To estimate variance and standard deviation of the error:
 \[
 s_e^2 = \frac{1}{n-2} \sum\limits_{i=1}^n e_i^2 = \frac{SSE}{n - 2}
@@ -760,7 +780,7 @@ Comparison with Simple Linear Regression:
 \item{intercept is the same}
 \item{Slope $b_i$ is the change in y given a unit change in $x_i$, while holding all other variables constant}
 \item{SST, SSE, SSR and $R^2$ are the same. Instead of variance of $y$ explain by a single $x$, it is explained by a set of $x$'s}
-\item{$s_e$ has a new formula: $s_e = \sqrt{SSE / (n-k-1)} $}
+\item{$s_e$ \textbf{has a new formula}: $s_e = \sqrt{SSE / (n-k-1)} $}, where $k$ is the number $x$'s.
 \item{Slope coefficient confidence intervals are the same}
 \item{p-values (one for each $x_i$) are the same}
 \item{\textit{Interpretation} is different due to multiple $x_i$'s}
@@ -780,13 +800,17 @@ t = \Bigg\lvert \frac{b_j - \beta_j^*} { s_{b_j} } \Bigg\lvert \geq 1.96
 \]
  or p-value $< 0.05$.
  
+ \[
+ t_{ratio} = \frac{estimate}{std. err} = \frac{b_i} {s_{b_i}}
+ \]
+ 
 By adding dimensions ($x$'s), the error sum of squares (SSE) will decrease so $R^2$ will always increase. $R^2$ becomes even less useful in multiple regression. To counteract, the \textbf{adjusted R-squared} is available:
 
 \[
-R^2 = 1 - \frac{ \sum\limits_{i=1}^n e^2_i} {\sum\limits_{i=1}^n (y_i - \overbar{y})^2} = \frac{SSR}{SST} =  1 - \frac{SSE}{SST}
+Adj. R^2 = 1 - \frac{ \sum\limits_{i=1}^n e^2_i} {\sum\limits_{i=1}^n (y_i - \overbar{y})^2} = \frac{SSR}{SST} =  1 - \frac{SSE}{SST}
 \]
 
-Adjusted R-squared imposes an ``artificial" penalty for adding dimensions.
+Adjusted R-squared imposes an ``artificial" penalty for adding dimensions. Adjusted $R^2$ and $R^2$ differ when there are redundant variables in the regression.
 
 \textbf{The Overall F Test} null hypothesis:
 \[
@@ -847,6 +871,7 @@ Recoding the baseline $w$ for $o$:
 \[
 \hat{y} = 28 -4 f + 7 b + 2 w + 0.3 e
 \]
+After recoding, make sure the output is still the same.
 
 Just to be clear, each of the non-baseline values already have the baseline included, i.e. the coefficient of $x_1$ is $\beta_0 + \beta_1$.
 
